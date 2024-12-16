@@ -60,9 +60,9 @@ class ProductManager {
         //find busca y devuelve el primer elemento de un array que cumple con la condicion especificada
 
         if (!producto) {
-            console.error("Not found!");
+            return ("Not found!");
         } else {
-            console.log(producto);
+            return (producto);
         }
 
     }
