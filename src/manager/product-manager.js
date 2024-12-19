@@ -1,7 +1,8 @@
 
-const fs = require("fs").promises; //importo directamente la funcion, para que cd vez que llamo ya estoy trabajando con promesas
+//const fs = require("fs").promises; //importo directamente la funcion, para que cd vez que llamo ya estoy trabajando con promesas
 //con ESModules: import {promises as fs} from "fs";
 
+import { promises as fs } from "fs";
 
 class ProductManager {
     static ultId = 0; //pertencen a la clase y no requeiren instancia
@@ -90,4 +91,4 @@ class ProductManager {
 }
 
 
-module.exports = ProductManager;
+export default ProductManager;

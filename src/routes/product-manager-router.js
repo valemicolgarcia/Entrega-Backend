@@ -3,7 +3,7 @@ import { Router } from "express";
 const router = Router();
 
 //importamos el product manager
-const ProductManager = require("./manager/product-manager.js");
+import ProductManager from "../manager/product-manager.js";
 
 //creamos instancia de la clase product manager
 const manager = new ProductManager("./src/data/productos.json");
@@ -11,7 +11,7 @@ const manager = new ProductManager("./src/data/productos.json");
 
 
 //ruta para listar todos los productos
-app.get("/api/products", async (req, res) => {
+router.get("/", async (req, res) => {
     //me guardo el query limit:
     let limit = req.query.limit;
     const productos = await manager.getProducts(); //me retorna todo el array de productos
@@ -24,7 +24,7 @@ app.get("/api/products", async (req, res) => {
 })
 
 //ruta para retornar producto por id: pid
-app.get("/api/products/:pid", async (req, res) => {
+router.get("/api/products/:pid", async (req, res) => {
     let id = req.params.pid; //de los parametros la informacion viene en string
     const productoBuscado = await manager.getProductById(parseInt(id));
     res.send(productoBuscado);
@@ -32,7 +32,7 @@ app.get("/api/products/:pid", async (req, res) => {
 
 
 
-app.post("/api/products", async (req, res) => {
+router.post("/api/products", async (req, res) => {
 
     const { title, description, price, img, code, stock, status, category, thumbnails } = req.body;
     await manager.addProduct({ title, description, price, img, code, stock });
@@ -40,13 +40,9 @@ app.post("/api/products", async (req, res) => {
 
 })
 
-/*La ruta PUT /:pid deberá tomar un producto y actualizarlo por los 
-campos enviados desde body. 
-NUNCA se debe actualizar o eliminar el id al momento de 
-hacer dicha actualización.
-*/
 
-app.put("/api/products/:pid", async (req, res) => {
+
+router.put("/api/products/:pid", async (req, res) => {
     const { pid } = req.params;
     const campos = req.body;
 
@@ -79,7 +75,7 @@ app.put("/api/products/:pid", async (req, res) => {
 });
 
 
-app.delete("/api/products/:pid", async (req, res) => {
+router.delete("/api/products/:pid", async (req, res) => {
     const { pid } = req.params;
     const productos = await manager.getProducts();
     const productIndex = productos.findIndex(product => product.id === parseInt(pid));
