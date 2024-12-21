@@ -11,6 +11,10 @@ import cartRouter from "./routes/cart-router.js"
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Ruta raíz
+app.get("/", (req, res) => {
+    res.send("Bienvenido a mi API de productos y carritos");
+});
 
 //rutas
 app.use("/api/products", productManagerRouter);

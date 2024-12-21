@@ -10,6 +10,14 @@ class CartManager {
         this.cargarCarritos();
     }
 
+    async getCarts() {
+        // Llama al método cargarCarritos para cargar los carritos desde el archivo
+        await this.cargarCarritos();
+        return this.carts; // Retorna el array de carritos cargados
+    }
+
+
+
     async cargarCarritos() {
         try {
             const data = await fs.readFile(this.path, "utf-8");

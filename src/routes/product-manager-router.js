@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
 })
 
 //ruta para retornar producto por id: pid
-router.get("/api/products/:pid", async (req, res) => {
+router.get("/:pid", async (req, res) => {
     let id = req.params.pid; //de los parametros la informacion viene en string
     const productoBuscado = await manager.getProductById(parseInt(id));
     res.send(productoBuscado);
@@ -32,7 +32,7 @@ router.get("/api/products/:pid", async (req, res) => {
 
 
 
-router.post("/api/products", async (req, res) => {
+router.post("/", async (req, res) => {
 
     const { title, description, price, img, code, stock, status, category, thumbnails } = req.body;
     await manager.addProduct({ title, description, price, img, code, stock });
@@ -42,7 +42,7 @@ router.post("/api/products", async (req, res) => {
 
 
 
-router.put("/api/products/:pid", async (req, res) => {
+router.put("/:pid", async (req, res) => {
     const { pid } = req.params;
     const campos = req.body;
 
@@ -75,7 +75,7 @@ router.put("/api/products/:pid", async (req, res) => {
 });
 
 
-router.delete("/api/products/:pid", async (req, res) => {
+router.delete("/:pid", async (req, res) => {
     const { pid } = req.params;
     const productos = await manager.getProducts();
     const productIndex = productos.findIndex(product => product.id === parseInt(pid));

@@ -1,92 +1,92 @@
 [
-    {
-        "id": 1,
-        "title": "Laptop Pro",
-        "description": "Una laptop potente para desarrolladores",
-        "price": 1200,
-        "img": "laptop_pro.jpg",
-        "code": "LAPTOP123",
-        "stock": 50
-    },
-    {
-        "id": 2,
-        "title": "Smartphone X",
-        "description": "Un smartphone de última generación con cámara avanzada",
-        "price": 800,
-        "img": "smartphone_x.jpg",
-        "code": "PHONE456",
-        "stock": 30
-    },
-    {
-        "id": 3,
-        "title": "Auriculares Bluetooth",
-        "description": "Auriculares inalámbricos con cancelación de ruido",
-        "price": 150,
-        "img": "auriculares_bt.jpg",
-        "code": "HEADSET789",
-        "stock": 100
-    },
-    {
-        "id": 4,
-        "title": "Tablet Ultra",
-        "description": "Tablet con pantalla AMOLED y soporte para lápiz óptico",
-        "price": 600,
-        "img": "tablet_ultra.jpg",
-        "code": "TABLET321",
-        "stock": 20
-    },
-    {
-        "id": 5,
-        "title": "Monitor 4K",
-        "description": "Monitor de alta resolución ideal para diseño gráfico",
-        "price": 300,
-        "img": "monitor_4k.jpg",
-        "code": "MONITOR654",
-        "stock": 15
-    },
-    {
-        "id": 6,
-        "title": "Teclado Mecánico",
-        "description": "Teclado mecánico con retroiluminación RGB personalizable",
-        "price": 120,
-        "img": "teclado_mecanico.jpg",
-        "code": "KEYBOARD789",
-        "stock": 40
-    },
-    {
-        "id": 7,
-        "title": "Mouse Gamer",
-        "description": "Mouse inalámbrico con sensor óptico de alta precisión",
-        "price": 90,
-        "img": "mouse_gamer.jpg",
-        "code": "MOUSE456",
-        "stock": 60
-    },
-    {
-        "id": 8,
-        "title": "Impresora Multifunción",
-        "description": "Impresora con función de escáner y conectividad inalámbrica",
-        "price": 250,
-        "img": "impresora_multi.jpg",
-        "code": "PRINTER123",
-        "stock": 25
-    },
-    {
-        "id": 9,
-        "title": "Cámara DSLR",
-        "description": "Cámara profesional con lente intercambiable y video 4K",
-        "price": 1500,
-        "img": "camara_dslr.jpg",
-        "code": "CAMERA789",
-        "stock": 10
-    },
-    {
-        "id": 10,
-        "title": "Smartwatch Fitness",
-        "description": "Reloj inteligente con monitor de ritmo cardíaco y GPS",
-        "price": 200,
-        "img": "smartwatch_fitness.jpg",
-        "code": "WATCH456",
-        "stock": 35
-    }
+  {
+    "id": 2,
+    "title": "Smartphone X",
+    "description": "Un smartphone de última generación con cámara avanzada",
+    "price": 800,
+    "img": "smartphone_x.jpg",
+    "code": "PHONE456",
+    "stock": 30
+  },
+  {
+    "id": 3,
+    "title": "Auriculares Bluetooth",
+    "description": "Auriculares inalámbricos con cancelación de ruido",
+    "price": 150,
+    "img": "auriculares_bt.jpg",
+    "code": "HEADSET789",
+    "stock": 100
+  },
+  {
+    "id": 4,
+    "title": "Tablet Ultra",
+    "description": "Tablet con pantalla AMOLED y soporte para lápiz óptico",
+    "price": 600,
+    "img": "tablet_ultra.jpg",
+    "code": "TABLET321",
+    "stock": 20
+  },
+  {
+    "id": 5,
+    "title": "Monitor 4K",
+    "description": "Monitor de alta resolución ideal para diseño gráfico",
+    "price": 300,
+    "img": "monitor_4k.jpg",
+    "code": "MONITOR654",
+    "stock": 15
+  },
+  {
+    "id": 6,
+    "title": "Teclado Mecánico",
+    "description": "Teclado mecánico con retroiluminación RGB personalizable",
+    "price": 120,
+    "img": "teclado_mecanico.jpg",
+    "code": "KEYBOARD789",
+    "stock": 40
+  },
+  {
+    "id": 7,
+    "title": "Mouse Gamer",
+    "description": "Mouse inalámbrico con sensor óptico de alta precisión",
+    "price": 90,
+    "img": "mouse_gamer.jpg",
+    "code": "MOUSE456",
+    "stock": 60
+  },
+  {
+    "id": 8,
+    "title": "Impresora Multifunción",
+    "description": "Impresora con función de escáner y conectividad inalámbrica",
+    "price": 250,
+    "img": "impresora_multi.jpg",
+    "code": "PRINTER123",
+    "stock": 25
+  },
+  {
+    "id": 9,
+    "title": "Cámara DSLR",
+    "description": "Cámara profesional con lente intercambiable y video 4K",
+    "price": 1500,
+    "img": "camara_dslr.jpg",
+    "code": "CAMERA789",
+    "stock": 10
+  },
+  {
+    "id": 10,
+    "title": "Smartwatch Fitness",
+    "description": "Reloj inteligente con monitor de ritmo cardíaco y GPS",
+    "price": 200,
+    "img": "smartwatch_fitness.jpg",
+    "code": "WATCH456",
+    "stock": 35
+  },
+  {
+    "id": 1,
+    "title": "Teclado mecánico",
+    "description": "Teclado con switches mecánicos y RGB",
+    "price": 100,
+    "img": "teclado_rgb.jpg",
+    "code": "KEYBOARD456",
+    "stock": 20
+  }
 ]
