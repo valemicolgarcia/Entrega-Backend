@@ -5,7 +5,7 @@
 import { promises as fs } from "fs";
 
 class ProductManager {
-    static ultId = 0; //pertencen a la clase y no requeiren instancia
+    static ultId = 0; //pertence a la clase y no requeiren instancia
 
     constructor(path) {
         this.products = []; //arreglo vacio

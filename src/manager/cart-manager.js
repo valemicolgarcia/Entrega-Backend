@@ -2,16 +2,15 @@ import { promises as fs } from "fs";
 
 class CartManager {
     constructor(path) {
-        this.carts = [];
-        this.path = path;
-        this.ultId = 0;
+        this.carts = []; //almaceno el array de carritos cargados desde el archivo JSON
+        this.path = path; //ruta del archivo JSON donde se guardan los carritos
+        this.ultId = 0; //control del ultimo ID usado para asegurarse de que cd carrito tenga ID unico
 
-        //cargo los carritos almacenados en el archivo
-        this.cargarCarritos();
+        this.cargarCarritos(); //cargo los carritos almacenados en el archivo JSON cuando se crea una instancia de la clase
     }
 
     async getCarts() {
-        // Llama al método cargarCarritos para cargar los carritos desde el archivo
+        // Llama al método cargarCarritos para cargar los carritos desde el archivo JSON y asegurarse de que los datos esten actualizados
         await this.cargarCarritos();
         return this.carts; // Retorna el array de carritos cargados
     }
@@ -43,15 +42,16 @@ class CartManager {
             id: ++this.ultId,
             products: []
         }
-        this.carts.push(nuevoCarrito);
-        //guardamos el array en el archivo
-        await this.guardarCarritos();
+        this.carts.push(nuevoCarrito); //agrego el carrito al array
+
+        await this.guardarCarritos(); ////guardamos el array en el archivo
         return nuevoCarrito;
 
     }
 
+
     async getCarritoById(cartId) {
-        const carrito = this.carts.find(c => c.id === cartId);
+        const carrito = this.carts.find(c => c.id === cartId); //busca carrito por id
         if (!carrito) {
             throw new Error("No existe carrito con ese id");
         }
@@ -60,9 +60,9 @@ class CartManager {
     }
 
     async agregarProductoAlCarrito(cartId, productId, quantity = 1) {
-        const carrito = await this.getCarritoById(cartId);
-        //verifico si el producto ya existe en el carrito
-        const existeProducto = carrito.products.find(p => p.product === productId);
+        const carrito = await this.getCarritoById(cartId); //busco el carrito
+
+        const existeProducto = carrito.products.find(p => p.product === productId); //verifico si el producto ya existe en el carrito
 
         //si el producto ya esta agregado al carrito le aumento la cantidad
         //si el producto no se agrego lo pusheo

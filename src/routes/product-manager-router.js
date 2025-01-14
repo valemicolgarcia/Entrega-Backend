@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
     let limit = req.query.limit;
     const productos = await manager.getProducts(); //me retorna todo el array de productos
     if (limit) {
-        res.send(productos.slice(0, limit));
+        res.send(productos.slice(0, limit)); //retorna los primeros "limit" productos
     } else {
         res.send(productos);
     }
@@ -81,9 +81,9 @@ router.delete("/:pid", async (req, res) => {
     const productIndex = productos.findIndex(product => product.id === parseInt(pid));
 
     if (productIndex !== -1) {
-        //si el producto existe lo elimino
-        productos.splice(productIndex, 1);
-        await manager.guardarArchivo(productos);
+
+        productos.splice(productIndex, 1); //si el producto existe lo elimino del array
+        await manager.guardarArchivo(productos); //guardo el array actualizado en el archivo
         res.send({ status: "success", mensaje: "Producto eliminado correctamente" });
     } else {
         res.status(404).send({ status: "error", mensaje: "Producto no encontrado" });
