@@ -37,6 +37,18 @@ app.use("/", viewsRouter);
 
 
 //listen
-app.listen(PUERTO, () => {
+const httpServer = app.listen(PUERTO, () => {
     console.log(`Escuchando en el puerto: ${PUERTO}`);
 })
+
+//websockets
+import ProductManager from "./manager/product-manager.js";
+const manager = new ProductManager("./src/data/productos.json");
+
+const io = new Server(httpServer);
+io.on("connection", async (socket) => {
+    console.log("Un cliente se conecto");
+    //enviamos el array de productos al cliente que se conecto
+    socket.emit("productos", await manager.getProducts());
+});
+
