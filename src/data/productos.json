@@ -45,15 +45,6 @@
     "stock": 40
   },
   {
-    "id": 7,
-    "title": "Mouse Gamer",
-    "description": "Mouse inalámbrico con sensor óptico de alta precisión",
-    "price": 90,
-    "img": "mouse_gamer.jpg",
-    "code": "MOUSE456",
-    "stock": 60
-  },
-  {
     "id": 8,
     "title": "Impresora Multifunción",
     "description": "Impresora con función de escáner y conectividad inalámbrica",
@@ -79,14 +70,5 @@
     "img": "smartwatch_fitness.jpg",
     "code": "WATCH456",
     "stock": 35
-  },
-  {
-    "id": 1,
-    "title": "Teclado mecánico",
-    "description": "Teclado con switches mecánicos y RGB",
-    "price": 100,
-    "img": "teclado_rgb.jpg",
-    "code": "KEYBOARD456",
-    "stock": 20
   }
 ]

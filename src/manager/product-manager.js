@@ -14,7 +14,7 @@ class ProductManager {
 
     async addProduct({ title, description, price, img, code, stock }) {
 
-        //leer el archivo y guardarme el array con los productos
+        //se leen los productos existentes
         const arrayProductos = await this.leerArchivo();
 
         //validamos que se agregaron todos los campos (todos los campos son obligatorios)
@@ -48,6 +48,7 @@ class ProductManager {
         await this.guardarArchivo(arrayProductos);
 
     }
+
     async getProducts() {
         const arrayProductos = await this.leerArchivo();
         return arrayProductos;
@@ -87,6 +88,35 @@ class ProductManager {
             console.log("Hay un error al leer el archivo");
         }
     }
+
+
+    async deleteProduct(id) {
+        try {
+            // Verificar si el producto existe utilizando getProductById
+            const producto = await this.getProductById(id);
+
+            if (producto === "Not found!") {
+                console.log(`Producto con ID ${id} no encontrado`);
+                return { status: "error", mensaje: "Producto no encontrado" };
+            }
+
+            // Leer los productos actuales del archivo
+            const arrayProductos = await this.leerArchivo();
+
+            // Filtrar los productos para eliminar el que coincide con el ID
+            const productosActualizados = arrayProductos.filter(item => item.id !== id);
+
+            // Guardar el array actualizado en el archivo
+            await this.guardarArchivo(productosActualizados);
+
+            console.log(`Producto con ID ${id} eliminado correctamente`);
+            return { status: "success", mensaje: `Producto con ID ${id} eliminado` };
+        } catch (error) {
+            console.log("Error al intentar eliminar el producto", error);
+            return { status: "error", mensaje: "Error al intentar eliminar el producto" };
+        }
+    }
+
 
 }
 

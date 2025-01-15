@@ -50,5 +50,23 @@ io.on("connection", async (socket) => {
     console.log("Un cliente se conecto");
     //enviamos el array de productos al cliente que se conecto
     socket.emit("productos", await manager.getProducts());
+
+    //agregamos producto
+    socket.on("agregarProducto", async (producto) => {
+        await manager.addProduct(producto);
+        io.sockets.emit("productos", await manager.getProducts());
+    })
+
+    //eliminamos producto
+    socket.on("eliminarProducto", async (id) => {
+        console.log(id);
+        //llaman al manager y usan el metodo de eliminar "deleteProduct"
+        //despues de eliminar enviar nuevamente el listado de productos actualizado
+        //hacer delete en manager porque no lo tengo
+        await manager.deleteProduct(id);
+        io.sockets.emit("productos", await manager.getProducts());
+    })
+
+
 });
 
