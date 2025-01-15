@@ -92,7 +92,7 @@ class ProductManager {
 
     async deleteProduct(id) {
         try {
-            // Verificar si el producto existe utilizando getProductById
+            // Verifico si el producto existe utilizando getProductById
             const producto = await this.getProductById(id);
 
             if (producto === "Not found!") {
@@ -100,13 +100,13 @@ class ProductManager {
                 return { status: "error", mensaje: "Producto no encontrado" };
             }
 
-            // Leer los productos actuales del archivo
+            // Leo los productos actuales del archivo
             const arrayProductos = await this.leerArchivo();
 
-            // Filtrar los productos para eliminar el que coincide con el ID
+            // Filtro los productos para eliminar el que coincide con el ID
             const productosActualizados = arrayProductos.filter(item => item.id !== id);
 
-            // Guardar el array actualizado en el archivo
+            // Guardo el array actualizado en el archivo
             await this.guardarArchivo(productosActualizados);
 
             console.log(`Producto con ID ${id} eliminado correctamente`);

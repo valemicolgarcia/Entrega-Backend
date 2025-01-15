@@ -60,9 +60,7 @@ io.on("connection", async (socket) => {
     //eliminamos producto
     socket.on("eliminarProducto", async (id) => {
         console.log(id);
-        //llaman al manager y usan el metodo de eliminar "deleteProduct"
-        //despues de eliminar enviar nuevamente el listado de productos actualizado
-        //hacer delete en manager porque no lo tengo
+
         await manager.deleteProduct(id);
         io.sockets.emit("productos", await manager.getProducts());
     })
