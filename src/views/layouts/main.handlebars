@@ -4,14 +4,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Beauty Store</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+
+
 </head>
 
-<body>
-    {{{body}}}
-    {{!--variable especial que handlebars utiliza para insertar el contenido de otras vistas dentro de un disenio
-    principal o layout--}}
+
+<body class="bg-white">
+    <!-- Navbar Superior -->
+    <nav class="bg-gray-800 text-white text-sm">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-gray-300">sobre nosotros</a>
+                <a href="#" class="hover:text-gray-300">revista</a>
+                <a href="#" class="hover:text-gray-300">consultoría</a>
+            </div>
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-gray-300">encontrá beauty store</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Navbar Principal -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold">Beauty Store</div>
+                <div class="flex-1 max-w-xl mx-4">
+                    <div class="relative">
+                        <input type="text" placeholder="¿qué buscás hoy?"
+                            class="w-full px-4 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-rose-500">
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-gray-700 hover:text-gray-900">favoritos</a>
+                    <a href="#" class="text-gray-700 hover:text-gray-900">ingresar</a>
+                    <div class="relative">
+                        <a href="#" class="text-gray-700 hover:text-gray-900">
+                            carrito
+                            <span
+                                class="absolute -top-2 -right-2 bg-rose-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                                0
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Navbar Categorías -->
+    <nav class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex space-x-8">
+                <a href="#" class="text-gray-700 hover:text-rose-500 px-3 py-4 text-sm font-medium">perfumería</a>
+                <a href="#" class="text-gray-700 hover:text-rose-500 px-3 py-4 text-sm font-medium">maquillaje</a>
+                <a href="#" class="text-gray-700 hover:text-rose-500 px-3 py-4 text-sm font-medium">rostro</a>
+                <a href="#" class="text-gray-700 hover:text-rose-500 px-3 py-4 text-sm font-medium">cuidados diarios</a>
+                <a href="#" class="text-gray-700 hover:text-rose-500 px-3 py-4 text-sm font-medium">cabello</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {{{body}}} {{!--variable especial que handlebars utiliza para insertar el contenido de otras vistas dentro de un
+        disenio
+        principal o layout--}}
+    </main>
+
+    <footer class="bg-gray-100 mt-12">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <div class="text-center text-gray-600">
+                <p>© 2024 Beauty Store. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/index.js"></script>
 </body>
 
 </html>

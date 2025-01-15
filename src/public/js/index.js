@@ -10,19 +10,36 @@ const renderProductos = (productos) => {
     const contenedorProductos = document.getElementById("contenedorProductos");
     contenedorProductos.innerHTML = "";
     productos.forEach(item => {
-        const card = document.createElement("div");
-        //aca se le puede agregar una clase para darle estilo
-        card.innerHTML = `
-                            <p>${item.title} <p>
-                            <p>${item.price} <p>
-                            <p>${item.description} <p>
-                            <button>Eliminar </button>
+        const productCard = document.createElement("div");
 
-                        `
+        productCard.className = "group relative"; //se asignan clases de css para dar estilo (tailwind)
 
-        contenedorProductos.appendChild(card);
+        productCard.innerHTML = `
+
+            <div class="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden">
+                <img src="${item.img}" 
+                     alt="${item.title}" 
+                     class="w-full h-full object-cover object-center group-hover:opacity-75 transition-opacity">
+            </div>
+
+            <div class="mt-4 flex justify-between">
+                <div>
+                    <h3 class="text-sm text-gray-700">${item.title}</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900">$${item.price}</p>
+                </div>
+                <button onclick="eliminarProducto(${item.id})" 
+                        class="p-2 rounded-full hover:bg-gray-100 text-gray-500 hover:text-red-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                </button>
+            </div>
+        `;
+
+        contenedorProductos.appendChild(productCard);
+
         //agregamos al evento el boton de eliminar
-        card.querySelector("button").addEventListener("click", () => {
+        productCard.querySelector("button").addEventListener("click", () => {
             eliminarProducto(item.id);
         })
 
@@ -41,19 +58,23 @@ document.getElementById("btnEnviar").addEventListener("click", () => {
     agregarProducto();
 })
 
-const agregarProducto = () => {
-    const producto = {
-        title: document.getElementById("title").value,
-        description: document.getElementById("description").value,
-        price: document.getElementById("price").value,
-        img: document.getElementById("img").value,
-        code: document.getElementById("code").value,
-        stock: document.getElementById("stock").value,
-        category: document.getElementById("category").value,
-        status: document.getElementById("status").value,
-    }
 
-    socket.emit("agregarProducto", producto); //envia este objeto al servidor a traves del evento "agregarProducto"
+const productForm = document.getElementById("productForm");
+if (productForm) {
+    productForm.addEventListener("submit", (e) => {
+        e.preventDefault();
 
+        const producto = {
+            title: document.getElementById("title").value,
+            description: document.getElementById("description").value,
+            price: Number(document.getElementById("price").value),
+            img: document.getElementById("img").value,
+            code: document.getElementById("code").value,
+            stock: Number(document.getElementById("stock").value)
+        };
+
+        socket.emit("agregarProducto", producto);
+        productForm.reset();
+    });
 }
 
