@@ -77,4 +77,3 @@ if (productForm) {
         productForm.reset();
     });
 }
-

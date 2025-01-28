@@ -1,4 +1,3 @@
-
 import { Router } from "express";
 const router = Router();
 
@@ -29,7 +28,6 @@ router.get("/:pid", async (req, res) => {
     const productoBuscado = await manager.getProductById(parseInt(id));
     res.send(productoBuscado);
 })
-
 
 
 router.post("/", async (req, res) => {
