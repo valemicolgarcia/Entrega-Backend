@@ -1,6 +1,11 @@
 const socket = io();
 
+console.log("ARCHIVO INDEX");
+
+
+
 socket.on("productos", (data) => {
+    console.log("productos recibidos desde index.js");
     renderProductos(data);
 })
 
@@ -39,15 +44,17 @@ const renderProductos = (productos) => {
         contenedorProductos.appendChild(productCard);
 
         //agregamos al evento el boton de eliminar
-        productCard.querySelector("button").addEventListener("click", () => {
-            eliminarProducto(item.id);
-        })
+        //productCard.querySelector("button").addEventListener("click", () => {
+        //  eliminarProducto(item.id);
+        //})
 
     })
 }
 
 const eliminarProducto = (id) => {
+    console.log("eliminar producto desde el index.js");
     socket.emit("eliminarProducto", id);
+    console.log("evento emitido para eliminar producto desde index.js");
 }
 
 
@@ -73,6 +80,7 @@ if (productForm) {
             stock: Number(document.getElementById("stock").value)
         };
 
+        console.log("se agrega producto desde el index");
         socket.emit("agregarProducto", producto);
         productForm.reset();
     });

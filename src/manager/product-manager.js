@@ -109,7 +109,7 @@ class ProductManager {
             // Guardo el array actualizado en el archivo
             await this.guardarArchivo(productosActualizados);
 
-            console.log(`Producto con ID ${id} eliminado correctamente`);
+            console.log(`Producto con ID ${id} eliminado correctamente desde PRODUCT MANAGER`);
             return { status: "success", mensaje: `Producto con ID ${id} eliminado` };
         } catch (error) {
             console.log("Error al intentar eliminar el producto", error);

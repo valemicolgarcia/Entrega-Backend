@@ -46,6 +46,7 @@ import ProductManager from "./manager/product-manager.js";
 const manager = new ProductManager("./src/data/productos.json");
 
 const io = new Server(httpServer);
+
 io.on("connection", async (socket) => {
     console.log("Un cliente se conecto");
     //enviamos el array de productos al cliente que se conecto
@@ -54,14 +55,19 @@ io.on("connection", async (socket) => {
     //agregamos producto
     socket.on("agregarProducto", async (producto) => {
         await manager.addProduct(producto);
+        console.log("Se agrego un producto desde app.js");
         io.sockets.emit("productos", await manager.getProducts());
     })
 
+    // Limpia cualquier listener duplicado antes de registrar uno nuevo
+
+
     //eliminamos producto
     socket.on("eliminarProducto", async (id) => {
-        console.log(id);
 
+        console.log("muestro el id del producto eliminado desde app.js" + id);
         await manager.deleteProduct(id);
+        console.log("producto eliminado correctamente en el servidor desde app.js");
         io.sockets.emit("productos", await manager.getProducts());
     })
 
