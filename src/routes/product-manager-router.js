@@ -9,6 +9,8 @@ const router = Router(); //permite crear un conjunto de rutas que despues se pue
 import ProductManager from "../manager/product-manager.js";
 const productManager = new ProductManager(); //creamos instancia de la clase product manager, que contiene la logica para interactuar con la bd
 
+//IMPORTACION DEL MIDDLEWARE PARA SUBIR IMAGENES
+import { upload } from "../middleware/upload.js";
 
 
 //GET /api/products --> obtiene una lista de productos con paginacion
@@ -74,6 +76,7 @@ router.get("/:pid", async (req, res) => {
 });
 
 
+/* AGREGAR PRODUCTO SIN IMAGEN
 // POST /api/products --> agrega un nuevo producto
 router.post("/", async (req, res) => {
     const nuevoProducto = req.body; //extrae el cuerpo de la solicitud req.body con los datos del nuevo producto
@@ -90,8 +93,27 @@ router.post("/", async (req, res) => {
         });
     }
 });
+*/
 
+// AGREGAR PRODUCTOS CON IMAGEN : ---------------
+router.post("/", upload.single("img"), async (req, res) => {
+    try {
+        const nuevoProducto = req.body;
+        if (req.file) {
+            nuevoProducto.img = `/img/${req.file.filename}`; // Guardar la ruta de la imagen
+        }
 
+        await productManager.addProduct(nuevoProducto);
+        res.status(201).json({
+            message: "Producto agregado exitosamente",
+            product: nuevoProducto
+        });
+    } catch (error) {
+        console.error("Error al agregar producto", error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
+});
+//---------------------------------------
 
 // PUT /api/products/:pid --> actualiza un producto por su ID ---------------------------------------------
 router.put("/:pid", async (req, res) => {

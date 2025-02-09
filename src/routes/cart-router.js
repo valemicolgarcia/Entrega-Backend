@@ -8,7 +8,7 @@ const router = Router();
 //IMPORTACION E INSTANCIA DE CARTMODEL Y CARTMANAGER
 import CartModel from "../models/cart.model.js";
 import CartManager from "../manager/cart-manager.js"
-const manager = new CartManager();
+const cartManager = new CartManager();
 
 //POST /api/carts --> crea un nuevo carrito
 router.post("/", async (req, res) => {

@@ -1,6 +1,7 @@
 
 //IMPORTACIONES
 import express from "express"; //framework para manejar servidro web y api
+import path from "path";
 import { engine } from "express-handlebars"; //motor de vistas handlebars para renderizar vistas dinamicas
 import { Server } from "socket.io"; //libreria para manejar comunicacion en tiempo real entre cliente y servidor
 import "./database.js"; //archivo database que configura la conexion con mongodb
@@ -19,7 +20,12 @@ app.use(express.json());  //procesar solicitudes con datos en formatos JSON
 app.use(express.urlencoded({ extended: true })); //procesar formularios en el formato x-www-form-urlencoded
 app.use(express.static("./src/public")); //sirve archivos estaticos desde la carpeya src/public 
 
-//para front --capaz VUELA ESTOOOO
+
+//IMAGENES
+// Servir archivos estáticos (imágenes y otros archivos públicos)
+app.use(express.static(path.join(process.cwd(), "src/public")));
+
+//para front 
 import Handlebars from "handlebars";
 Handlebars.registerHelper("multiply", (a, b) => a * b);
 

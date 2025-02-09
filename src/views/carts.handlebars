@@ -1,3 +1,5 @@
+<!--
+
 <h1 class="text-3xl font-bold text-center text-pink-700 mb-6">Carrito de Compras</h1>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -15,4 +17,25 @@
     <a href="/products" class="bg-pink-600 text-white py-2 px-4 rounded hover:bg-pink-500">
         Seguir comprando
     </a>
+</div>
+
+
+-->
+
+
+<h1 class="text-3xl font-bold text-center text-pink-700 mb-6">Tu Carrito</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {{#each productos}}
+    <div class="bg-white shadow-md rounded-lg p-4">
+        <img src="{{this.product.img}}" alt="{{this.product.title}}" class="w-full h-48 object-cover rounded-t-lg">
+        <h2 class="text-lg font-semibold text-gray-700">{{this.product.title}}</h2>
+        <p class="text-gray-600">Cantidad: {{this.quantity}}</p>
+        <p class="text-gray-500">Precio unitario: ${{this.product.price}}</p>
+        <a href="/carts/{{cartId}}/product/{{this.product._id}}/delete"
+            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400">
+            Eliminar
+        </a>
+    </div>
+    {{/each}}
 </div>

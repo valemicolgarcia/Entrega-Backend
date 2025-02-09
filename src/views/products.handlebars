@@ -1,3 +1,6 @@
+<!-- 
+
+
 <h1 class="text-3xl font-bold text-center text-pink-700 mb-6">Productos</h1>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     {{#each productos}}
@@ -12,4 +15,58 @@
         </a>
     </div>
     {{/each}}
+</div>
+
+
+-->
+<!--
+<h1 class="text-3xl font-bold text-center text-pink-700 mb-6">Lista de Productos</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {{#each productos}}
+    <div class="bg-white shadow-md rounded-lg p-4">
+        <img src="{{img}}" alt="{{title}}" class="w-full h-48 object-cover rounded-t-lg">
+        <h2 class="text-lg font-semibold text-gray-700 mt-2">{{title}}</h2>
+        <p class="text-gray-600">{{description}}</p>
+        <p class="text-pink-600 font-bold">Precio: ${{price}}</p>
+        <a href="/carts/{{cartId}}/product/{{_id}}"
+            class="bg-pink-600 text-white py-2 px-4 rounded hover:bg-pink-500 mt-2 block text-center">
+            Agregar al carrito
+        </a>
+    </div>
+    {{/each}}
+</div>
+
+-->
+
+<h1 class="text-3xl font-bold text-center text-pink-700 mb-6">Lista de Productos</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {{#each productos}}
+    <div class="bg-white shadow-md rounded-lg p-4">
+        <img src="{{img}}" alt="{{title}}" class="w-full h-48 object-cover rounded-t-lg">
+        <h2 class="text-lg font-semibold text-gray-700 mt-2">{{title}}</h2>
+        <p class="text-gray-600">{{description}}</p>
+        <p class="text-pink-600 font-bold">Precio: ${{price}}</p>
+        <a href="/carts/{{cartId}}/product/{{_id}}"
+            class="bg-pink-600 text-white py-2 px-4 rounded hover:bg-pink-500 mt-2 block text-center">
+            Agregar al carrito
+        </a>
+    </div>
+    {{/each}}
+</div>
+
+<!-- Paginación -->
+<div class="flex justify-center items-center mt-8 space-x-4">
+    {{#if hasPrevPage}}
+    <a href="/products?page={{prevPage}}" class="bg-pink-600 text-white py-2 px-4 rounded hover:bg-pink-500">
+        Anterior
+    </a>
+    {{/if}}
+
+    <p class="text-gray-600 font-bold">Página {{currentPage}} de {{totalPages}}</p>
+
+    {{#if hasNextPage}}
+    <a href="/products?page={{nextPage}}" class="bg-pink-600 text-white py-2 px-4 rounded hover:bg-pink-500">
+        Siguiente
+    </a>
+    {{/if}}
 </div>

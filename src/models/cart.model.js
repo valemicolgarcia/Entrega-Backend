@@ -23,7 +23,7 @@ const cartSchema = new mongoose.Schema({
 // Middleware pre que realiza la población automáticamente
 //ahora en vez de solo tener los ids de los productos, obtenemos los detalles completos de cd producto en el carrito
 cartSchema.pre('findOne', function (next) {
-    this.populate('products.product', '_id title price');
+    this.populate('products.product', '_id title price img');
     next();
 });
 
