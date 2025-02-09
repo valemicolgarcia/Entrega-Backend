@@ -1,1 +1,40 @@
-[]
+[
+    {
+        "title": "Perfume Floral",
+        "description": "Un perfume con aroma floral y fresco.",
+        "price": 50,
+        "img": "https://example.com/perfume1.jpg",
+        "code": "PERF123",
+        "stock": 20,
+        "category": "perfumeria",
+        "status": true,
+        "thumbnails": [
+            "https://example.com/thumb1.jpg",
+            "https://example.com/thumb2.jpg"
+        ]
+    },
+    {
+        "title": "Labial Rojo Intenso",
+        "description": "Labial mate de larga duración.",
+        "price": 15,
+        "img": "https://example.com/labial1.jpg",
+        "code": "LIP456",
+        "stock": 50,
+        "category": "cosmetica",
+        "status": true,
+        "thumbnails": [
+            "https://example.com/thumb3.jpg"
+        ]
+    },
+    {
+        "title": "Crema Hidratante",
+        "description": "Crema para todo tipo de piel.",
+        "price": 25,
+        "img": "https://example.com/crema1.jpg",
+        "code": "CRE789",
+        "stock": 30,
+        "category": "belleza",
+        "status": true,
+        "thumbnails": []
+    }
+]

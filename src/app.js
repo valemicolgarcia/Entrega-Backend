@@ -1,47 +1,64 @@
 
-//importaciones
-import express from "express";
-import { engine } from "express-handlebars";
-import { Server } from "socket.io";
-
+//IMPORTACIONES
+import express from "express"; //framework para manejar servidro web y api
+import { engine } from "express-handlebars"; //motor de vistas handlebars para renderizar vistas dinamicas
+import { Server } from "socket.io"; //libreria para manejar comunicacion en tiempo real entre cliente y servidor
+import "./database.js"; //archivo database que configura la conexion con mongodb
+//importo los routers definidos en las rutas para manejar la logica de los productos, carritos y vistas
 import productManagerRouter from "./routes/product-manager-router.js";
 import cartRouter from "./routes/cart-router.js";
 import viewsRouter from "./routes/views-router.js";
 
-//creacion del servidor
-const app = express();
-const PUERTO = 8080;
+//CREACION DEL SERVIDOR
+const app = express(); //instancia de express para manejar solicitudes http
+const PUERTO = 8080; //puerto en el que el servidor escuchara las solicitudes
 
-//middleware
+//MIDDLEWARE
 //son funciones que se ejecutan antes de llegar a las rutas para procesar las solicitudes
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("./src/public"));
+app.use(express.json());  //procesar solicitudes con datos en formatos JSON
+app.use(express.urlencoded({ extended: true })); //procesar formularios en el formato x-www-form-urlencoded
+app.use(express.static("./src/public")); //sirve archivos estaticos desde la carpeya src/public 
 
-//Express-Handlebars
-app.engine("handlebars", engine()); //le digo a express que voy a usar handlebars para procesar archivos de plantillas
-app.set("view engine", "handlebars"); //motor de vistas predeterminado que usara express
-app.set("views", "./src/views"); //define la carpeta donde estan almacenadas las plantillas
-
+//para front --capaz VUELA ESTOOOO
+import Handlebars from "handlebars";
+Handlebars.registerHelper("multiply", (a, b) => a * b);
 
 
+//CONFIGURACION DE HANDLEBARS
+app.engine("handlebars", engine()); //configuro handlebars como motor de vistas de la aplicacion
+app.set("view engine", "handlebars"); //indica que el motor predeterminado para renderizar las vistas sera handlebars
+app.set("views", "./src/views"); //define la carpeta donde estan almacenadas las plantillas, vistas que se renderizan
+
+
+/*
 // Ruta raíz
 app.get("/", (req, res) => {
     res.send("Bienvenido a mi API de productos y carritos");
 });
+*/
 
-//rutas
-app.use("/api/products", productManagerRouter);
+//DEFINICION DE RUTAS
+app.use("/api/products", productManagerRouter); //defino que todas las rutas relacionadas con productos se manejaran con el router productManagerRouter
 app.use("/api/carts", cartRouter);
 app.use("/", viewsRouter);
 
 
+//INICIO DEL SERVIDOR
+app.listen(PUERTO, () => {
+    console.log(`Servidor escuchando en el puerto ${PUERTO}`);
+});
+
+
+//----------------------------------------------------------------------------------------------
+/*
 //listen
 const httpServer = app.listen(PUERTO, () => {
     console.log(`Escuchando en el puerto: ${PUERTO}`);
-})
+});
 
-//websockets
+
+
+//websockets.
 import ProductManager from "./manager/product-manager.js";
 const manager = new ProductManager("./src/data/productos.json");
 
@@ -74,3 +91,4 @@ io.on("connection", async (socket) => {
 
 });
 
+*/

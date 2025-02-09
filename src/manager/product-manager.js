@@ -1,119 +1,171 @@
 
-//const fs = require("fs").promises; //importo directamente la funcion, para que cd vez que llamo ya estoy trabajando con promesas
-//con ESModules: import {promises as fs} from "fs";
 
-import { promises as fs } from "fs";
+//import { promises as fs } from "fs";
 
-class ProductManager {
+import ProductModel from "../models/product.model.js"; //importacion del modelo de producto, 
+// que permite interactuar con la coleccion products en mongodb (crear, leer, actualizar, eliminar productos)
+
+
+class ProductManager { //clase q define toda la logica relacionada con los productos
+
+    /*
     static ultId = 0; //pertence a la clase y no requeiren instancia
 
     constructor(path) {
         this.products = []; //arreglo vacio
         this.path = path;
     }
+    */
+    //1. AGREGAR PRODUCTO a la base de datos
+    async addProduct({ title, description, price, img, code, stock, category, thumbnails }) {
 
-    async addProduct({ title, description, price, img, code, stock }) {
-
-        //se leen los productos existentes
-        const arrayProductos = await this.leerArchivo();
-
-        //validamos que se agregaron todos los campos (todos los campos son obligatorios)
-        if (!title || !description || !price || !img || !code || !stock) {
-            console.log("Todos los campos son obligatorios, falta alguno!");
-            return; //para que no agregue un producto que este incompleto
-        }
-
-        //validamos que el codigo sea unico
-        //some lo que hace es verificar que al menos un elemento del arreglo cumple con la condicion especificada
-        if (arrayProductos.some(item => item.code === code)) {
-            console.log("El codigo debe ser unico");
-            return; //terminaria aca
-        }
-
-        //Si pasamos las validaciones, ahora podemos crear el objeto
-        const nuevoProducto = {
-            id: ++ProductManager.ultId, //id autoincrementable
-            title,
-            description,
-            price,
-            img,
-            code,
-            stock
-        }
-
-        //una vez que lo puedo crear lo pusheo al array
-        arrayProductos.push(nuevoProducto);
-
-        //una vez que agregamos el nuevo producto al array guardamos el array al archivo
-        await this.guardarArchivo(arrayProductos);
-
-    }
-
-    async getProducts() {
-        const arrayProductos = await this.leerArchivo();
-        return arrayProductos;
-
-    }
-
-    async getProductById(id) {
-        //leo el archivo y genero el array
-        const arrayProductos = await this.leerArchivo();
-        const producto = arrayProductos.find(item => item.id === id);
-        //find busca y devuelve el primer elemento de un array que cumple con la condicion especificada
-
-        if (!producto) {
-            return ("Not found!");
-        } else {
-            return (producto);
-        }
-
-    }
-
-    //el array lo recibo como algo plano pero debo convertirlo a JSON
-    //armar metodos auxiliares que guarden el archivo y recuperen los datos
-    async guardarArchivo(arrayProductos) {
         try {
-            await fs.writeFile(this.path, JSON.stringify(arrayProductos, null, 2));
-        } catch (error) {
-            console.log("Hay un error al guardar el archivo");
-        }
-    }
 
-    async leerArchivo() {
-        try {
-            const respuesta = await fs.readFile(this.path, "utf-8");
-            const arrayProductos = JSON.parse(respuesta);
-            return arrayProductos;
-        } catch (error) {
-            console.log("Hay un error al leer el archivo");
-        }
-    }
-
-
-    async deleteProduct(id) {
-        try {
-            // Verifico si el producto existe utilizando getProductById
-            const producto = await this.getProductById(id);
-
-            if (producto === "Not found!") {
-                console.log(`Producto con ID ${id} no encontrado`);
-                return { status: "error", mensaje: "Producto no encontrado" };
+            // se verifica que todos los campos requeridos esten presentes
+            if (!title || !description || !price || !code || !stock || !category) {
+                console.log("Todos los campos son obligatorios");
+                return;
             }
 
-            // Leo los productos actuales del archivo
-            const arrayProductos = await this.leerArchivo();
+            //se busca en la base de datos si ya existe un producto con el mismo codigo
+            const existeProducto = await ProductModel.findOne({ code: code });
 
-            // Filtro los productos para eliminar el que coincide con el ID
-            const productosActualizados = arrayProductos.filter(item => item.id !== id);
+            if (existeProducto) {
+                console.log("El código debe ser único");
+                return;
+            }
 
-            // Guardo el array actualizado en el archivo
-            await this.guardarArchivo(productosActualizados);
+            //creo una nueva instancia del producto con los datos recibidos
+            const newProduct = new ProductModel({
+                title,
+                description,
+                price,
+                img,
+                code,
+                stock,
+                category,
+                status: true,
+                thumbnails: thumbnails || [] //si no se proporciona un array de imagenes se asigna un array vacio
+            });
 
-            console.log(`Producto con ID ${id} eliminado correctamente desde PRODUCT MANAGER`);
-            return { status: "success", mensaje: `Producto con ID ${id} eliminado` };
+            await newProduct.save(); //se guarda el producto en la base de datos
+
         } catch (error) {
-            console.log("Error al intentar eliminar el producto", error);
-            return { status: "error", mensaje: "Error al intentar eliminar el producto" };
+            console.log("Error al agregar producto", error);
+            throw error;
+        }
+
+    }
+
+
+    //GET PRODUCTS: obtener productos desde la bd con opciones como paginacion, ordenamiento y filtrado
+    async getProducts({ limit = 10, page = 1, sort, query } = {}) {
+        //se muestran 10 productos por pagina si no se indica otro valor
+        //se mostrara la primera pagina si no se especifica otra
+
+        try {
+            const skip = (page - 1) * limit;
+
+            //si query esta presente se filtran los productos por categoria
+            let queryOptions = {};
+
+            if (query) {
+                queryOptions = { category: query };
+            }
+
+            //criterios de ordenamiento, por precio
+            const sortOptions = {};
+            if (sort) {
+                if (sort === 'asc' || sort === 'desc') {
+                    sortOptions.price = sort === 'asc' ? 1 : -1;
+                }
+            }
+
+            //consulta a mongodb
+            const productos = await ProductModel
+                .find(queryOptions) //obtiene productos que coincidan con los filtros
+                .sort(sortOptions) //ordena los productos
+                .skip(skip) //implementa paginacion
+                .limit(limit); //implementa paginacion
+
+            //cuenta el total de productos que coinciden con los filtros para calcular cuantas paginas hay en total
+            const totalProducts = await ProductModel.countDocuments(queryOptions);
+
+            //calculo el numero total de paginas, si hay pagina anterior o siguiente
+            const totalPages = Math.ceil(totalProducts / limit);
+            const hasPrevPage = page > 1;
+            const hasNextPage = page < totalPages;
+
+            //devuelve los productos y la informacion de la paginacion en un json
+            return {
+                docs: productos,
+                totalPages,
+                prevPage: hasPrevPage ? page - 1 : null,
+                nextPage: hasNextPage ? page + 1 : null,
+                page,
+                hasPrevPage,
+                hasNextPage,
+                prevLink: hasPrevPage ? `/api/products?limit=${limit}&page=${page - 1}&sort=${sort}&query=${query}` : null,
+                nextLink: hasNextPage ? `/api/products?limit=${limit}&page=${page + 1}&sort=${sort}&query=${query}` : null,
+            };
+        } catch (error) {
+            console.log("Error al obtener los productos", error);
+            throw error;
+        }
+    }
+
+
+    //GET PRODUCT BY ID: busca un producto por su id
+    async getProductById(id) {
+        try {
+            const producto = await ProductModel.findById(id); //busca un producto en mongodb
+
+            if (!producto) {
+                console.log("Producto no encontrado");
+                return null;
+            }
+
+            console.log("Producto encontrado");
+            return producto;
+        } catch (error) {
+            console.log("Error al traer un producto por id");
+        }
+    }
+
+    //UPDATE PRODUCT: actualiza un producto existente
+    async updateProduct(id, productoActualizado) {
+        try {
+
+            const updateado = await ProductModel.findByIdAndUpdate(id, productoActualizado); //busca el producto por su id, y actualiza los campos con los datos proporcionados
+
+            if (!updateado) {
+                console.log("No se encuentra el producto");
+                return null;
+            }
+
+            console.log("Producto actualizado con exito");
+            return updateado;
+        } catch (error) {
+            console.log("Error al actualizar el producto", error);
+
+        }
+    }
+
+    //DELETE PRODUCT: elimina producto por su id
+    async deleteProduct(id) {
+        try {
+
+            const deleteado = await ProductModel.findByIdAndDelete(id); //busca el producto por id y lo elimina de la coleccion
+
+            if (!deleteado) {
+                console.log("No se encuentraaaa, busca bien!");
+                return null;
+            }
+
+            console.log("Producto eliminado correctamente!");
+        } catch (error) {
+            console.log("Error al eliminar el producto", error);
+            throw error;
         }
     }
 
@@ -122,3 +174,8 @@ class ProductManager {
 
 
 export default ProductManager;
+
+
+//conexion con otros archivos:
+//1.product-manager-router.js: esta clase se importa para manejar las solicitudes http relacionadas con los productos
+//2. productModel: usa el modelo para interactuar directamente con la base de datos

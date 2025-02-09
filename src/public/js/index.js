@@ -1,3 +1,4 @@
+/*
 const socket = io();
 
 console.log("ARCHIVO INDEX");
@@ -85,3 +86,4 @@ if (productForm) {
         productForm.reset();
     });
 }
+*/
