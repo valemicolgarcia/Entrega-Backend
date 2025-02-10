@@ -28,7 +28,13 @@ app.use(express.static(path.join(process.cwd(), "src/public")));
 //para front 
 import Handlebars from "handlebars";
 Handlebars.registerHelper("multiply", (a, b) => a * b);
+//para ver si me aplica los filtros
+Handlebars.registerHelper("eq", function (a, b) {
+    return a === b;
+});
 
+
+//--
 
 //CONFIGURACION DE HANDLEBARS
 app.engine("handlebars", engine()); //configuro handlebars como motor de vistas de la aplicacion

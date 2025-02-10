@@ -24,10 +24,12 @@ const cartManager = new CartManager();
 //carga los datos desde la base de datos y los muestra en una pagina html
 router.get("/products", async (req, res) => {
     try {
-        const { page = 1, limit = 2 } = req.query; //otiene los parameteos de la URL (http://localhost:8080/products?page=2&limit=5    )
+        const { page = 1, limit = 2, sort, query } = req.query; //otiene los parameteos de la URL (http://localhost:8080/products?page=2&limit=5    )
         const productos = await productManager.getProducts({ //paso page y limit a getProducts del productManager
             page: parseInt(page),
-            limit: parseInt(limit)
+            limit: parseInt(limit),
+            sort,
+            query,
         });
 
         const nuevoArray = productos.docs.map(producto => { //productos.docs: contiene los productos obtenidos desde mongodb
@@ -43,7 +45,9 @@ router.get("/products", async (req, res) => {
             prevPage: productos.prevPage,
             nextPage: productos.nextPage,
             currentPage: productos.page,
-            totalPages: productos.totalPages
+            totalPages: productos.totalPages,
+            query,
+            sort,
         });
 
     } catch (error) {
