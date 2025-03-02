@@ -9,6 +9,10 @@ import "./database.js"; //archivo database que configura la conexion con mongodb
 import productManagerRouter from "./routes/product-manager-router.js";
 import cartRouter from "./routes/cart-router.js";
 import viewsRouter from "./routes/views-router.js";
+import initializePassport from "./config/passport.config.js";
+import sessionsRouter from "./routes/sessions.router.js";
+import cookieParser from "cookie-parser";
+import passport from "passport";
 
 //CREACION DEL SERVIDOR
 const app = express(); //instancia de express para manejar solicitudes http
@@ -20,6 +24,9 @@ app.use(express.json());  //procesar solicitudes con datos en formatos JSON
 app.use(express.urlencoded({ extended: true })); //procesar formularios en el formato x-www-form-urlencoded
 //req.query
 app.use(express.static("./src/public")); //sirve archivos estaticos desde la carpeya src/public 
+app.use(cookieParser());
+app.use(passport.initialize());
+initializePassport();
 
 
 //IMAGENES
@@ -53,7 +60,9 @@ app.get("/", (req, res) => {
 //DEFINICION DE RUTAS
 app.use("/api/products", productManagerRouter); //defino que todas las rutas relacionadas con productos se manejaran con el router productManagerRouter
 app.use("/api/carts", cartRouter);
+app.use("/api/sessions", sessionsRouter);
 app.use("/", viewsRouter);
+
 
 
 //INICIO DEL SERVIDOR
