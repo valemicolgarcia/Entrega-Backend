@@ -32,14 +32,22 @@ router.post("/login", async (req, res) => {
     }
 });
 
+//
+import CartManager from "../manager/cart-manager.js";
+const manager = new CartManager();
+
 //registro
 router.post("/register", async (req, res) => {
     try {
         const { usuario, password } = req.body;
 
+        const nuevoCarrito = await manager.crearCarrito();
+
+        //cada usuario tiene su carrito asociado
         const user = new UsuarioModel({
             usuario,
-            password: createHash(password)
+            password: createHash(password),
+            cart: nuevoCarrito._id
         })
 
         await user.save();
@@ -66,6 +74,14 @@ router.get("/current", passport.authenticate("current", { session: false }), (re
     } else {
         res.send("no estas autorizado");
     }
+})
+
+//verificamos que un usuario sea admin
+router.get("/admin", passport.authenticate("current", { session: false }), (req, res) => {
+    if (req.user.rol != "admin") {
+        return res.status(403).send("acceso denegado, no sos admin");
+    }
+    res.render("admin");
 })
 
 export default router;
