@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
     <link rel="stylesheet" href="/css/tailwind.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="bg-pink-50 text-gray-800 font-sans">
     <header class="bg-pink-100 p-4 shadow-md">
+        <!--
         <nav class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold text-pink-700">Perfumería</h1>
             <ul class="flex gap-4">
@@ -18,6 +20,26 @@
                 <li><a href="/carts/{{cartId}}" class="text-pink-600 hover:underline">Carrito</a></li>
             </ul>
         </nav>
+        -->
+        <nav class="bg-pink-600 p-4"></nav>
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/" class="text-white text-xl font-bold">Mi Tienda</a>
+            <div class="space-x-4">
+                <a href="/products" class="text-white hover:text-pink-200">Productos</a>
+                {{#if usuario}}
+                <a href="/mi-carrito" class="text-white hover:text-pink-200">Mi Carrito</a>
+                <a href="/api/sessions/profile" class="text-white hover:text-pink-200">Mi Perfil</a>
+                <form action="/api/sessions/logout" method="POST" class="inline">
+                    <button type="submit" class="text-white hover:text-pink-200">Cerrar Sesión</button>
+                </form>
+                {{else}}
+                <a href="/login" class="text-white hover:text-pink-200">Iniciar Sesión</a>
+                <a href="/register" class="text-white hover:text-pink-200">Registrarse</a>
+                {{/if}}
+            </div>
+        </div>
+        </nav>
+
     </header>
     <main class="container mx-auto p-6">
         {{{body}}}
@@ -25,6 +47,9 @@
     <footer class="bg-pink-200 text-center p-4 mt-6">
         <p class="text-pink-700">© 2025 Perfumería. Todos los derechos reservados.</p>
     </footer>
+
+
+
 </body>
 
 </html>

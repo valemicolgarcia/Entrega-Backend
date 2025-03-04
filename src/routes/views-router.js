@@ -102,5 +102,50 @@ router.get("/login", (req, res) => {
     res.render("login");
 })
 
+import passport from "passport";
+
+
+router.get("/mi-carrito", passport.authenticate("current", { session: false }), async (req, res) => {
+    try {
+        if (!req.user) {
+            return res.redirect("/login");
+        }
+
+        const cartId = req.user.cart;
+        const carrito = await cartManager.getCarritoById(cartId);
+
+        if (!carrito) {
+            return res.render("error", {
+                message: "Carrito no encontrado",
+                backUrl: "/products"
+            });
+        }
+
+        const productosEnCarrito = carrito.products.map(item => ({
+            product: item.product.toObject(),
+            quantity: item.quantity
+        }));
+
+        // Calcular el total del carrito
+        const total = productosEnCarrito.reduce((acc, item) => {
+            return acc + (item.product.price * item.quantity);
+        }, 0);
+
+        res.render("carts", {
+            productos: productosEnCarrito,
+            cartId: cartId,
+            usuario: req.user,
+            empty: productosEnCarrito.length === 0,
+            total
+        });
+
+    } catch (error) {
+        console.error("Error al obtener el carrito", error);
+        res.render("error", {
+            message: "Error al cargar el carrito",
+            backUrl: "/products"
+        });
+    }
+});
 
 export default router;

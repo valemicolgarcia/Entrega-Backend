@@ -80,10 +80,16 @@
         <h2 class="text-lg font-semibold text-gray-700 mt-2">{{title}}</h2>
         <p class="text-gray-600">{{description}}</p>
         <p class="text-pink-600 font-bold">Precio: ${{price}}</p>
+        <!--
         <a href="/carts/{{cartId}}/product/{{_id}}"
             class="bg-pink-600 text-white py-2 px-4 rounded hover:bg-pink-500 mt-2 block text-center">
             Agregar al carrito
         </a>
+        -->
+        <button onclick="console.log('{{this._id}}'); agregarAlCarrito('{{this._id}}')"
+            class="bg-pink-600 text-white py-2 px-4 rounded hover:bg-pink-500 mt-2 block w-full text-center">
+            Agregar al carrito
+        </button>
     </div>
     {{/each}}
 </div>

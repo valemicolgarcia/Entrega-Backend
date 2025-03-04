@@ -1,5 +1,5 @@
 import { Router } from "express";
-import UsuarioModel from "../models/usuarios.model.js";
+import UserModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import { createHash, isValidPassword } from "../utils/util.js";
 import passport from "passport";
@@ -8,8 +8,8 @@ const router = Router();
 
 router.post("/login", async (req, res) => {
     try {
-        const { usuario, password } = req.body;
-        const user = await UsuarioModel.findOne({ usuario });
+        const { email, password } = req.body;
+        const user = await UserModel.findOne({ email });
 
         if (!user) {
             return res.status(401).json({ error: "Usuario no encontrado" });
@@ -20,7 +20,14 @@ router.post("/login", async (req, res) => {
         }
 
         //si la contra esta bien y encontramos el usuario, generamos el token
-        const token = jwt.sign({ usuario: user.usuario, rol: user.rol }, "coderhouse", { expiresIn: "1h" }); //le paso la palabra clave
+        const token = jwt.sign({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            age: user.age,
+            cart: user.cart,
+            role: user.role
+        }, "coderhouse", { expiresIn: "1h" }); //le paso la palabra clave
 
         res.cookie("coderCookieToken", token, { httpOnly: true, maxAge: 3600000 });
         res.redirect("/api/sessions/current");
@@ -39,13 +46,16 @@ const manager = new CartManager();
 //registro
 router.post("/register", async (req, res) => {
     try {
-        const { usuario, password } = req.body;
+        const { first_name, last_name, email, password, age } = req.body;
 
         const nuevoCarrito = await manager.crearCarrito();
 
         //cada usuario tiene su carrito asociado
-        const user = new UsuarioModel({
-            usuario,
+        const user = new UserModel({
+            first_name,
+            last_name,
+            email,
+            age,
             password: createHash(password),
             cart: nuevoCarrito._id
         })
@@ -70,7 +80,7 @@ router.post("/logout", (req, res) => {
 
 router.get("/current", passport.authenticate("current", { session: false }), (req, res) => {
     if (req.user) {
-        res.render("profile", { usuario: req.user.usuario });
+        res.render("profile", { usuario: req.user });
     } else {
         res.send("no estas autorizado");
     }

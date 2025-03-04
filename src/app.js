@@ -23,7 +23,8 @@ const PUERTO = 8080; //puerto en el que el servidor escuchara las solicitudes
 app.use(express.json());  //procesar solicitudes con datos en formatos JSON
 app.use(express.urlencoded({ extended: true })); //procesar formularios en el formato x-www-form-urlencoded
 //req.query
-app.use(express.static("./src/public")); //sirve archivos estaticos desde la carpeya src/public 
+//app.use(express.static("./src/public")); //sirve archivos estaticos desde la carpeya src/public 
+//app.use(express.static("src/public"));
 app.use(cookieParser());
 app.use(passport.initialize());
 initializePassport();
@@ -114,3 +115,7 @@ io.on("connection", async (socket) => {
 });
 
 */
+
+
+
+

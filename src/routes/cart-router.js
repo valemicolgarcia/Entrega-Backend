@@ -46,6 +46,8 @@ router.get("/:cid", async (req, res) => {
 
 
 // POST /api/carts/:cid/product/:pid --> agrega un producto al carrito
+//esta ruta necesita que se especifique si o si cada id, no se puede usar paraa el boton agregar al carrito.
+
 router.post("/:cid/product/:pid", async (req, res) => {
     const cartId = req.params.cid; //extrae cart ID
     const productId = req.params.pid; //extrae product ID
@@ -60,6 +62,51 @@ router.post("/:cid/product/:pid", async (req, res) => {
         res.status(500).json({ error: "Error interno del servidor" });
     }
 });
+
+//agrega producto al carrito sin esoecificar el id 
+import passport from "passport";
+import ProductModel from "../models/product.model.js";
+
+router.post("/add-to-cart/:pid", passport.authenticate("current", { session: false }), async (req, res) => {
+    console.log("add to cart recibido");
+    try {
+        if (!req.user) {
+            return res.redirect("/login");
+        }
+
+        const productId = req.params.pid;
+        const cartId = req.user.cart;
+
+        // Verificar si el producto existe
+        const producto = await ProductModel.findById(productId);
+        if (!producto) {
+            return res.status(404).json({
+                status: 'error',
+                error: "Producto no encontrado"
+            });
+        }
+
+        const actualizarCarrito = await cartManager.agregarProductoAlCarrito(cartId, productId, 1);
+
+        if (!actualizarCarrito) {
+            throw new Error('Error al actualizar el carrito');
+        }
+
+        res.json({
+            status: 'success',
+            message: 'Producto agregado al carrito',
+            cart: actualizarCarrito
+        });
+
+    } catch (error) {
+        console.error("Error al agregar producto al carrito", error);
+        res.status(500).json({
+            status: 'error',
+            error: "Error interno del servidor"
+        });
+    }
+});
+
 
 // DELETE /api/carts/:cid/product/:pid --> elimina un producto de un carrito
 router.delete('/:cid/product/:pid', async (req, res) => {
