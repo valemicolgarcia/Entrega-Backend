@@ -63,49 +63,31 @@ router.post("/:cid/product/:pid", async (req, res) => {
     }
 });
 
-//agrega producto al carrito sin esoecificar el id 
+//agrega producto al carrito sin esoecificar el id -------------------------NUEVO---------------------
 import passport from "passport";
 import ProductModel from "../models/product.model.js";
 
-router.post("/add-to-cart/:pid", passport.authenticate("current", { session: false }), async (req, res) => {
-    console.log("add to cart recibido");
+router.post('/add-to-cart/:pid', passport.authenticate('current', { session: false }), async (req, res) => {
     try {
-        if (!req.user) {
-            return res.redirect("/login");
-        }
-
         const productId = req.params.pid;
-        const cartId = req.user.cart;
+        const userId = req.user._id; // Asegúrate de que el usuario esté autenticado
 
-        // Verificar si el producto existe
-        const producto = await ProductModel.findById(productId);
-        if (!producto) {
-            return res.status(404).json({
-                status: 'error',
-                error: "Producto no encontrado"
-            });
+        // Obtén el carrito del usuario
+        const userCart = await CartModel.findOne({ _id: req.user.cart }); // Busca el carrito usando el ID del usuario
+
+        if (!userCart) {
+            return res.status(404).json({ error: 'Carrito no encontrado' });
         }
 
-        const actualizarCarrito = await cartManager.agregarProductoAlCarrito(cartId, productId, 1);
-
-        if (!actualizarCarrito) {
-            throw new Error('Error al actualizar el carrito');
-        }
-
-        res.json({
-            status: 'success',
-            message: 'Producto agregado al carrito',
-            cart: actualizarCarrito
-        });
-
+        // Agrega el producto al carrito
+        await cartManager.agregarProductoAlCarrito(userCart._id, productId);
+        res.status(200).json({ message: 'Producto agregado al carrito' });
     } catch (error) {
-        console.error("Error al agregar producto al carrito", error);
-        res.status(500).json({
-            status: 'error',
-            error: "Error interno del servidor"
-        });
+        console.error('Error al agregar al carrito:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+//--------------------------------------------------------------------
 
 
 // DELETE /api/carts/:cid/product/:pid --> elimina un producto de un carrito

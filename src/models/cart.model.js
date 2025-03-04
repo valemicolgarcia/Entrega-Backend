@@ -7,6 +7,8 @@ import mongoose from "mongoose";
 const cartSchema = new mongoose.Schema({
     products: [ //array de objetos, donde cada objeto representa un producto agregado al carrito
         {
+
+
             product: { //referencia a la coleccion Product
                 type: mongoose.Schema.Types.ObjectId, //almacena el objectId del producto en la base de datos
                 ref: 'Product', //indica que este campo se refiere a la coleccion products
@@ -14,6 +16,7 @@ const cartSchema = new mongoose.Schema({
             },
             quantity: {
                 type: Number, //es un nro que representa la cantidad
+                default: 1,
                 required: true //es obligatorio
             }
         }
