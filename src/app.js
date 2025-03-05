@@ -13,10 +13,20 @@ import initializePassport from "./config/passport.config.js";
 import sessionsRouter from "./routes/sessions.router.js";
 import cookieParser from "cookie-parser";
 import passport from "passport";
+//PARA GITHUB:
+import session from 'express-session';
 
 //CREACION DEL SERVIDOR
 const app = express(); //instancia de express para manejar solicitudes http
 const PUERTO = 8080; //puerto en el que el servidor escuchara las solicitudes
+
+//PARA GITHUB
+app.use(session({
+    secret: 'coderhouse', // usa una clave secreta segura
+    resave: false,
+    saveUninitialized: false
+}));
+
 
 //MIDDLEWARE
 //son funciones que se ejecutan antes de llegar a las rutas para procesar las solicitudes
@@ -27,6 +37,9 @@ app.use(express.urlencoded({ extended: true })); //procesar formularios en el fo
 //app.use(express.static("src/public"));
 app.use(cookieParser());
 app.use(passport.initialize());
+//PARA GITHUB
+app.use(passport.session());
+//--
 initializePassport();
 
 //para ver si funciona el circulo del login

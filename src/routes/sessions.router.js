@@ -95,4 +95,34 @@ router.get("/admin", passport.authenticate("current", { session: false }), (req,
     res.render("admin");
 })
 
+//para autenticacion con GITHUB-------
+import { generateToken } from "../utils/jsonwebtoken.js";
+
+
+// version con github -------------------------------------------------------------------------------
+
+router.get("/github", passport.authenticate("github", { scope: ["user: email"] }), async (req, res) => {
+
+})
+
+router.get("/githubcallback", passport.authenticate("github", { failureRedirect: "/login" }), async (req, res) => {
+    //la estrategia de passport github nos retornara el usuario, entonces lo agregamos a nuestro objeto de sesion
+    req.session.user = req.user;
+
+    // Generar un token JWT con la información del usuario
+    const token = generateToken({
+        id: req.user._id,
+        first_name: req.user.first_name,
+        last_name: req.user.last_name,
+        email: req.user.email
+    });
+    // Setear la cookie para que la estrategia "current" la encuentre
+    res.cookie("coderCookieToken", token, { httpOnly: true, maxAge: 3600000 });
+
+    res.redirect("/api/sessions/current");
+
+})
+
+//-----------------------------------------
+
 export default router;
