@@ -32,10 +32,15 @@ router.get("/products", async (req, res) => {
             query,
         });
 
+        //declaro el array sin sacarle el id 
+        const nuevoArray = productos.docs.map(producto => producto.toObject());
+
+        /*
         const nuevoArray = productos.docs.map(producto => { //productos.docs: contiene los productos obtenidos desde mongodb
             const { _id, ...rest } = producto.toObject(); //convierte cada producto en un objeto javascript puro y se elimina el id para evitar conflictos con handlebars
             return rest;
         });
+        */
 
         //renderiza la vista products.handlebars con los datos de los productos
         res.render("products", {
@@ -121,10 +126,19 @@ router.get("/mi-carrito", passport.authenticate("current", { session: false }), 
             });
         }
 
+        /*
         const productosEnCarrito = carrito.products.map(item => ({
             product: item.product.toObject(),
             quantity: item.quantity
         }));
+        */
+
+        const productosEnCarrito = carrito.products
+            .filter(item => item.product)  // elimina items sin producto
+            .map(item => ({
+                product: item.product.toObject(),
+                quantity: item.quantity
+            }));
 
         // Calcular el total del carrito
         const total = productosEnCarrito.reduce((acc, item) => {
@@ -141,10 +155,11 @@ router.get("/mi-carrito", passport.authenticate("current", { session: false }), 
 
     } catch (error) {
         console.error("Error al obtener el carrito", error);
+        /*
         res.render("error", {
             message: "Error al cargar el carrito",
             backUrl: "/products"
-        });
+        });*/
     }
 });
 

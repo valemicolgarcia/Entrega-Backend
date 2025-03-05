@@ -70,13 +70,14 @@ import ProductModel from "../models/product.model.js";
 router.post('/add-to-cart/:pid', passport.authenticate('current', { session: false }), async (req, res) => {
     try {
         const productId = req.params.pid;
-        const userId = req.user._id; // Asegúrate de que el usuario esté autenticado
+        //const userId = req.user._id; // Asegúrate de que el usuario esté autenticado
 
         // Obtén el carrito del usuario
         const userCart = await CartModel.findOne({ _id: req.user.cart }); // Busca el carrito usando el ID del usuario
 
         if (!userCart) {
             return res.status(404).json({ error: 'Carrito no encontrado' });
+            console.log("no encontro el carrito del usuario");
         }
 
         // Agrega el producto al carrito

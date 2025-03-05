@@ -75,7 +75,10 @@ class CartManager { //clase llamada cartManager para encapsular la logica para m
     async agregarProductoAlCarrito(cartId, productId, quantity = 1) {
         try {
             const carrito = await this.getCarritoById(cartId); //obtengo el carrito
-            const existeProducto = carrito.products.find(item => item.product.toString() === productId); //busco si el producto ya existe en el carrito
+            const existeProducto = carrito.products.find(item => {
+                if (!item.product) return false;  // Evita el .toString() si es null
+                return item.product.toString() === productId;
+            });//item.product.toString() === productId); //busco si el producto ya existe en el carrito
 
             if (existeProducto) { //si ya existe le aumento la cantidad, sino se agrega el producto al array
                 existeProducto.quantity += quantity;

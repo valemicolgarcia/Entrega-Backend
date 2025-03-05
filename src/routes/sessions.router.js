@@ -21,6 +21,7 @@ router.post("/login", async (req, res) => {
 
         //si la contra esta bien y encontramos el usuario, generamos el token
         const token = jwt.sign({
+            _id: user._id,
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
