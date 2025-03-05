@@ -51,6 +51,7 @@ router.get("/products", async (req, res) => {
             nextPage: productos.nextPage,
             currentPage: productos.page,
             totalPages: productos.totalPages,
+            usuario: req.user,
             query,
             sort,
         });

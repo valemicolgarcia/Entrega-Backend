@@ -29,6 +29,11 @@ app.use(cookieParser());
 app.use(passport.initialize());
 initializePassport();
 
+//para ver si funciona el circulo del login
+import { attachUser } from './middleware/attachUser.js';
+app.use(attachUser);
+//------------------
+
 
 //IMAGENES
 // Servir archivos estáticos (imágenes y otros archivos públicos)
@@ -64,7 +69,18 @@ app.use("/api/carts", cartRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/", viewsRouter);
 
+//--------------------- esto en veremos
 
+// Helper para comparar desigualdad
+Handlebars.registerHelper('neq', function (a, b) {
+    return a !== b;
+});
+
+// Helper para obtener la primera letra de un string
+Handlebars.registerHelper('firstLetter', function (str) {
+    return (str && typeof str === 'string') ? str.charAt(0) : '';
+});
+//-------------------
 
 //INICIO DEL SERVIDOR
 app.listen(PUERTO, () => {
