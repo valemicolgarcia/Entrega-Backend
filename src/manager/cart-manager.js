@@ -75,15 +75,28 @@ class CartManager { //clase llamada cartManager para encapsular la logica para m
     async agregarProductoAlCarrito(cartId, productId, quantity = 1) {
         try {
             const carrito = await this.getCarritoById(cartId); //obtengo el carrito
+
+
+
             const existeProducto = carrito.products.find(item => {
+
+
                 if (!item.product) return false;  // Evita el .toString() si es null
-                return item.product.toString() === productId;
+                // return item.product.toString() === productId; ESTA LINEA FUNCIONABA BIEN
+
+                console.log("Item product" + item.product._id);
+                console.log("productId" + productId);
+
+                return item.product?._id?.toString() === productId.toString();
             });//item.product.toString() === productId); //busco si el producto ya existe en el carrito
 
             if (existeProducto) { //si ya existe le aumento la cantidad, sino se agrega el producto al array
                 existeProducto.quantity += quantity;
+                console.log("existe el producto supuestamente sumoooooo");
+                console.log(" ");
             } else {
                 carrito.products.push({ product: productId, quantity });
+                console.log("elseeeee, no existe el producto");
             }
 
             //aviso a mongoose que el array products fue modificado
