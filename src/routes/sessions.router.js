@@ -79,7 +79,7 @@ router.post("/logout", (req, res) => {
 
 //armamos la ruta current
 
-router.get("/current", passport.authenticate("current", { session: false }), (req, res) => {
+router.get("/current", passport.authenticate("current", { session: false, failureRedirect: "/login" }), (req, res) => {
     if (req.user) {
         res.render("profile", { usuario: req.user });
     } else {

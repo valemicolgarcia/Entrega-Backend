@@ -110,7 +110,7 @@ router.get("/login", (req, res) => {
 import passport from "passport";
 
 
-router.get("/mi-carrito", passport.authenticate("current", { session: false }), async (req, res) => {
+router.get("/mi-carrito", passport.authenticate("current", { session: false, failureRedirect: "/login" }), async (req, res) => {
     try {
         if (!req.user) {
             return res.redirect("/login");
