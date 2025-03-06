@@ -15,6 +15,10 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 //PARA GITHUB:
 import session from 'express-session';
+//variables de entorno
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 //CREACION DEL SERVIDOR
 const app = express(); //instancia de express para manejar solicitudes http

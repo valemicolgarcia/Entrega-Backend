@@ -114,7 +114,8 @@ router.get("/githubcallback", passport.authenticate("github", { failureRedirect:
         id: req.user._id,
         first_name: req.user.first_name,
         last_name: req.user.last_name,
-        email: req.user.email
+        email: req.user.email,
+        cart: req.user.cart
     });
     // Setear la cookie para que la estrategia "current" la encuentre
     res.cookie("coderCookieToken", token, { httpOnly: true, maxAge: 3600000 });
@@ -123,6 +124,32 @@ router.get("/githubcallback", passport.authenticate("github", { failureRedirect:
 
 })
 
-//-----------------------------------------
+//----------------------------------------- inicio de session con google
+
+
+// Iniciar autenticación con Google (solicita acceso al perfil y email)
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+// Ruta callback para Google
+router.get("/googlecallback",
+    passport.authenticate("google", { failureRedirect: "/login" }),
+    (req, res) => {
+        // Una vez autenticado, podes asignar el usuario a la sesión si usás sesiones:
+        req.session.user = req.user;
+        // Generar un token JWT con la información del usuario
+        const token = generateToken({
+            id: req.user._id,
+            first_name: req.user.first_name,
+            last_name: req.user.last_name,
+            email: req.user.email,
+            cart: req.user.cart
+        });
+        // Setear la cookie para que la estrategia "current" la encuentre
+        res.cookie("coderCookieToken", token, { httpOnly: true, maxAge: 3600000 });
+        // Y redirigir a la ruta deseada, por ejemplo:
+        res.redirect("/api/sessions/current");
+    });
+
+
 
 export default router;

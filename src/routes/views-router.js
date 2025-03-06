@@ -121,10 +121,7 @@ router.get("/mi-carrito", passport.authenticate("current", { session: false, fai
         const carrito = await cartManager.getCarritoById(cartId);
 
         if (!carrito) {
-            return res.render("error", {
-                message: "Carrito no encontrado",
-                backUrl: "/products"
-            });
+            return res.status(404).send("Carrito no encontrado");
         }
 
         /*
