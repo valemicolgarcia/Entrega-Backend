@@ -89,7 +89,7 @@ router.get("/current", passport.authenticate("current", { session: false, failur
 
 //verificamos que un usuario sea admin
 router.get("/admin", passport.authenticate("current", { session: false }), (req, res) => {
-    if (req.user.rol != "admin") {
+    if (req.user.role != "admin") {
         return res.status(403).send("acceso denegado, no sos admin");
     }
     res.render("admin");
