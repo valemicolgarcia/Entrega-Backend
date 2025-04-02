@@ -21,6 +21,7 @@ class UserController {
         age,
         password,
         cart: nuevoCarrito._id,
+        role,
       });
 
       await user.save();

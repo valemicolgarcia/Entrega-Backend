@@ -20,11 +20,12 @@ const cartManager = new CartManager();
 
 //me traigo los middlewares de autorizacion
 import { soloAdmin, soloUser } from "../middleware/auth.js";
+import { attachUser } from "../middleware/attachUser.js";
 
 //GET /products --> renderiza la vista de productos paginados
 //cuando el usuario accede a /products se ejecuta esta funcion
 //carga los datos desde la base de datos y los muestra en una pagina html
-router.get("/products", soloUser, async (req, res) => {
+router.get("/products", attachUser, soloUser, async (req, res) => {
   try {
     const { page = 1, limit = 2, sort, query } = req.query; //otiene los parameteos de la URL (http://localhost:8080/products?page=2&limit=5    )
     const productos = await productManager.getProducts({
