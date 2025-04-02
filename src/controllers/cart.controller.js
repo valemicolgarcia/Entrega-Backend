@@ -90,6 +90,17 @@ class CartController {
       res.status(500).json({ error: "Error al vaciar carrito" });
     }
   }
+
+  async finalizarCompra(req, res) {
+    try {
+      const { ticket, productosNoDisponibles } =
+        await cartService.finalizarCompra(req.params.cid);
+      res.status(200).json({ ticket, productosNoDisponibles });
+    } catch (error) {
+      console.error("Error al finalizar la compra:", error);
+      res.status(500).json({ error: "Error al procesar la compra" });
+    }
+  }
 }
 
 export default CartController;

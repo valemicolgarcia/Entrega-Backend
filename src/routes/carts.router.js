@@ -20,5 +20,6 @@ router.delete("/:cid/product/:pid", controller.eliminarProducto);
 router.put("/:cid", controller.actualizarCarrito);
 router.put("/:cid/product/:pid", controller.actualizarCantidad);
 router.delete("/:cid", controller.vaciarCarrito);
+router.post("/:cid/purchase", controller.finalizarCompra);
 
 export default router;
