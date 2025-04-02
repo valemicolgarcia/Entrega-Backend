@@ -7,8 +7,8 @@ import "./database.js"; //archivo database que configura la conexion con mongodb
 //importo los routers definidos en las rutas para manejar la logica de los productos, carritos y vistas
 //import productManagerRouter from "./routes/product-manager-router.js";
 import productRouter from "./routes/products.router.js";
-
-import cartRouter from "./routes/cart-router.js";
+import cartRouter from "./routes/carts.router.js";
+//import cartRouter from "./routes/cart-router.js";
 import viewsRouter from "./routes/views-router.js";
 import initializePassport from "./config/passport.config.js";
 import sessionsRouter from "./routes/sessions.router.js";
