@@ -2,6 +2,7 @@
 import express from "express"; //framework para manejar servidro web y api
 import path from "path";
 import { engine } from "express-handlebars"; //motor de vistas handlebars para renderizar vistas dinamicas
+import http from "http";
 import { Server } from "socket.io"; //libreria para manejar comunicacion en tiempo real entre cliente y servidor
 import "./database.js"; //archivo database que configura la conexion con mongodb
 //importo los routers definidos en las rutas para manejar la logica de los productos, carritos y vistas
@@ -101,50 +102,17 @@ Handlebars.registerHelper("firstLetter", function (str) {
 //-------------------
 
 //INICIO DEL SERVIDOR
-app.listen(PUERTO, () => {
+/*app.listen(PUERTO, () => {
   console.log(`Servidor escuchando en el puerto ${PUERTO}`);
 });
-
+*/
 //----------------------------------------------------------------------------------------------
-/*
+
 //listen
 const httpServer = app.listen(PUERTO, () => {
-    console.log(`Escuchando en el puerto: ${PUERTO}`);
+  console.log(`Escuchando en el puerto: ${PUERTO}`);
 });
 
-
-
-//websockets.
-import ProductManager from "./manager/product-manager.js";
-const manager = new ProductManager("./src/data/productos.json");
-
+import configureProductSockets from "./sockets/product.socket.js";
 const io = new Server(httpServer);
-
-io.on("connection", async (socket) => {
-    console.log("Un cliente se conecto");
-    //enviamos el array de productos al cliente que se conecto
-    socket.emit("productos", await manager.getProducts());
-
-    //agregamos producto
-    socket.on("agregarProducto", async (producto) => {
-        await manager.addProduct(producto);
-        console.log("Se agrego un producto desde app.js");
-        io.sockets.emit("productos", await manager.getProducts());
-    })
-
-    // Limpia cualquier listener duplicado antes de registrar uno nuevo
-
-
-    //eliminamos producto
-    socket.on("eliminarProducto", async (id) => {
-
-        console.log("muestro el id del producto eliminado desde app.js" + id);
-        await manager.deleteProduct(id);
-        console.log("producto eliminado correctamente en el servidor desde app.js");
-        io.sockets.emit("productos", await manager.getProducts());
-    })
-
-
-});
-
-*/
+configureProductSockets(io);

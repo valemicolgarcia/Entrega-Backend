@@ -15,8 +15,15 @@ class ProductRepository {
   }) {
     try {
       // se verifica que todos los campos requeridos esten presentes
+      console.log("hola, estoy verificando campos");
       if (!title || !description || !price || !code || !stock || !category) {
         console.log("Todos los campos son obligatorios");
+        if (!title) console.log("falta el tirulo");
+        if (!description) console.log("falta la desc");
+        if (!price) console.log("falta el precio");
+        if (!code) console.log("falta el code");
+        if (!stock) console.log("falta el stock");
+        if (!category) console.log("falta la categoria");
         return;
       }
 

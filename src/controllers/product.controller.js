@@ -34,7 +34,17 @@ class ProductController {
 
   async addProduct(req, res) {
     try {
-      const nuevoProducto = req.body;
+      //const nuevoProducto = req.body;
+      const nuevoProducto = {
+        title: req.body.title,
+        description: req.body.description,
+        price: Number(req.body.price),
+        code: req.body.code,
+        stock: Number(req.body.stock),
+        category: req.body.category,
+        thumbnails: [],
+      };
+
       if (req.file) {
         nuevoProducto.img = `/img/${req.file.filename}`; // si estás usando upload
       }
