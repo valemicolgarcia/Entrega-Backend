@@ -54,7 +54,10 @@ class CartService {
         product.stock -= item.quantity;
         await product.save();
       } else {
-        productosNoDisponibles.push(item.product);
+        productosNoDisponibles.push({
+          _id: product._id,
+          title: product.title,
+        });
       }
     }
 
@@ -69,9 +72,20 @@ class CartService {
     await ticket.save();
 
     // Eliminar del carrito los productos que sí se compraron
+    /*
     cart.products = cart.products.filter((item) =>
       productosNoDisponibles.some((id) => id.equals(item.product))
+    );*/
+    /*
+    cart.products = cart.products.filter((item) =>
+      productosNoDisponibles.some((id) => id.equals(item.product))
+    );*/
+    cart.products = cart.products.filter((item) =>
+      productosNoDisponibles.some(
+        (prod) => prod._id.toString() === item.product.toString()
+      )
     );
+
     await cart.save();
 
     return { ticket, productosNoDisponibles };
