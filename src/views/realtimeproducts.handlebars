@@ -3,8 +3,6 @@
         <!-- Formulario -->
         <div class="lg:col-span-1">
             <form id="productForm" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
-
-            
                 <h2 class="text-xl font-bold mb-6">Agregar Producto</h2>
 
                 <div class="space-y-4">
@@ -26,10 +24,11 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500"></textarea>
                     </div>
 
-                     <label class="block text-sm font-medium text-gray-700">Imagen</label>
-    <input type="file" name="img" id="img" required
-           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500">
-  </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Imagen</label>
+                        <input type="file" name="img" id="img" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500">
+                    </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Código</label>
@@ -44,12 +43,11 @@
                     </div>
 
                     <div>
-  <label class="block text-sm font-medium text-gray-700">Categoría</label>
-  <input type="text" name="category" id="category" required
-         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500">
-</div>
+                        <label class="block text-sm font-medium text-gray-700">Categoría</label>
+                        <input type="text" name="category" id="category" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-rose-500 focus:ring-rose-500">
+                    </div>
 
-    
                     <button type="submit" id="btnEnviar"
                         class="w-full bg-rose-500 text-white py-2 px-4 rounded-md hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">
                         Agregar Producto
@@ -62,7 +60,7 @@
         <div class="lg:col-span-3">
             <h2 class="text-xl font-bold mb-6">Productos en Tiempo Real</h2>
             <div id="contenedorProductos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Los productos se renderizarán aquí dinámicamente -->
+                <!-- Los productos se renderizarán aquí dinámicamente desde index.js -->
             </div>
         </div>
     </div>
@@ -70,6 +68,4 @@
 
 <!-- Scripts para Socket.IO y lógica de cliente -->
 <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
-
 <script src="/js/index.js"></script>
-

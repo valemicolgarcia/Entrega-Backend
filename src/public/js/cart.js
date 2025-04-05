@@ -26,6 +26,7 @@ btnFinalizarCompra.addEventListener("click", async () => {
             data.ticket.purchase_datetime
           ).toLocaleString()}</p>
           <p><strong>Total:</strong> $${data.ticket.amount}</p>
+           <p><strong>Comprador:</strong> ${data.ticket.purchaser}</p>
         </div>
       `;
 

@@ -14,10 +14,14 @@ const ticketSchema = new mongoose.Schema({
   amount: {
     type: Number,
     required: true,
-  },
+  } /*
   purchaser: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "usuarios", // Asegurate de que coincida con tu UserModel
+    ref: "usuarios",
+    required: true,
+  },*/,
+  purchaser: {
+    type: String,
     required: true,
   },
 });

@@ -67,7 +67,7 @@ class CartService {
       code: generateUniqueCode(),
       purchase_datetime: new Date(),
       amount: calcularTotal(cart.products),
-      purchaser: user._id,
+      purchaser: user.email,
     });
     await ticket.save();
 
