@@ -1,5 +1,6 @@
 import ProductRepository from "../repositories/product.repository.js";
 const manager = new ProductRepository();
+import ProductModel from "../dao/models/product.model.js";
 
 // ⚠️ Esta es la función que envolvés y exportás
 export default function configureProductSockets(io) {
@@ -30,6 +31,20 @@ export default function configureProductSockets(io) {
     socket.on("nuevoProductoAgregado", async () => {
       const resultado = await manager.getProducts();
       io.emit("productos", resultado.docs);
+    });
+
+    socket.on("aumentarStock", async (productId) => {
+      try {
+        const producto = await ProductModel.findById(productId);
+        if (producto) {
+          producto.stock += 1;
+          await producto.save();
+          const productosActualizados = await ProductModel.find();
+          io.emit("productos", productosActualizados);
+        }
+      } catch (error) {
+        console.error("Error al aumentar stock:", error);
+      }
     });
   });
 }
