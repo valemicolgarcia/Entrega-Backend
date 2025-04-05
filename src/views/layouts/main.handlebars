@@ -15,40 +15,41 @@
 
             <!-- Menú de navegación -->
             <nav class="flex space-x-4">
-                <!-- Estos enlaces se muestran siempre -->
                 <a href="/products"
                     class="bg-white text-pink-600 px-3 py-2 rounded hover:bg-pink-700 hover:text-white transition">
                     Productos
                 </a>
+
                 <a href="/mi-carrito"
                     class="bg-white text-pink-600 px-3 py-2 rounded hover:bg-pink-700 hover:text-white transition">
                     Mi Carrito
                 </a>
+
                 <a href="/api/sessions/current"
                     class="bg-white text-pink-600 px-3 py-2 rounded hover:bg-pink-700 hover:text-white transition">
                     Mi Perfil
                 </a>
 
                 {{#if usuario}}
-                <!-- Si el usuario está logueado, muestra un círculo con su inicial -->
-                <div class="inline-flex items-center justify-center text-white text-2xl font-bold px-2">
-                    {{firstLetter usuario.first_name}}
-                </div>
+                    {{#if (eq usuario.role "admin")}}
+                        <a href="/realtimeproducts"
+                            class="bg-white text-pink-600 px-3 py-2 rounded hover:bg-pink-700 hover:text-white transition">
+                            Stock
+                        </a>
+                    {{/if}}
 
-
-
-
-
+                    <div class="inline-flex items-center justify-center text-white text-2xl font-bold px-2">
+                        {{firstLetter usuario.first_name}}
+                    </div>
                 {{else}}
-                <!-- Si NO está logueado, muestra “Iniciar Sesión” y “Registrarse” -->
-                <a href="/login"
-                    class="bg-white text-pink-600 px-3 py-2 rounded hover:bg-pink-700 hover:text-white transition">
-                    Iniciar Sesión
-                </a>
-                <a href="/register"
-                    class="bg-white text-pink-600 px-3 py-2 rounded hover:bg-pink-700 hover:text-white transition">
-                    Registrarse
-                </a>
+                    <a href="/login"
+                        class="bg-white text-pink-600 px-3 py-2 rounded hover:bg-pink-700 hover:text-white transition">
+                        Iniciar Sesión
+                    </a>
+                    <a href="/register"
+                        class="bg-white text-pink-600 px-3 py-2 rounded hover:bg-pink-700 hover:text-white transition">
+                        Registrarse
+                    </a>
                 {{/if}}
             </nav>
         </div>

@@ -68,7 +68,7 @@ class UserController {
     if (req.user) {
       const user = req.user;
       const userDTO = new UserDTO(user); ////////HACER ESTEEEEEEEEE
-      res.render("profile", { user: userDTO });
+      res.render("profile", { usuario: userDTO });
     } else {
       res.send("no estas autorizado");
     }
