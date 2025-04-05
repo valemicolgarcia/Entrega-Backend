@@ -5,6 +5,8 @@ import GoogleStrategy from "passport-google-oauth20";
 import UserModel from "../dao/models/user.model.js";
 import CartManager from "../dao/db/cart-manager-db.js";
 const manager = new CartManager();
+import dotenv from "dotenv";
+dotenv.config();
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJwt = jwt.ExtractJwt;
@@ -24,7 +26,7 @@ const initializePassport = () => {
     new JWTStrategy(
       {
         jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-        secretOrKey: "coderhouse",
+        secretOrKey: process.env.JWT_SECRET,
       },
       async (jwt_payload, done) => {
         try {
@@ -55,9 +57,9 @@ const initializePassport = () => {
     "github",
     new GithubStrategy(
       {
-        clientID: "process.env.GITHUB_CLIENT_ID",
-        clientSecret: "process.env.GITHUB_CLIENT_SECRET",
-        callbackURL: "process.env.GITHUB_CALLBACK_URL",
+        clientID: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        callbackURL: process.env.GITHUB_CALLBACK_URL,
       },
       async (accessToken, refreshToken, profile, done) => {
         console.log("perfil", profile);
